@@ -1,0 +1,13 @@
+id,text,label
+1,"Government announces a new education policy",REAL
+2,"Scientists publish a new research study",REAL
+3,"India announces new technology initiative",REAL
+4,"Government launches a new public service",REAL
+5,"Scientists confirm a new discovery after research",REAL
+6,"New technology helps improve healthcare services",REAL
+7,"Breaking shocking miracle cure discovered",FAKE
+8,"You will not believe what happened next",FAKE
+9,"Secret method can make you rich overnight",FAKE
+10,"Click now to win millions of rupees",FAKE
+11,"Shocking secret revealed by experts",FAKE
+12,"Doctors hate this one simple trick",FAKE
