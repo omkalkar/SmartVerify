@@ -11,6 +11,7 @@ MODEL_PATH = BASE_DIR / "fake_content_model.pkl"
 try:
     model = joblib.load(MODEL_PATH)
     print("Model loaded successfully.")
+    print("Model classes:", getattr(model, "classes_", "Not available"))
 except Exception as error:
     model = None
     print("Model loading error:", error)
@@ -43,8 +44,13 @@ def fake_detector():
 
         else:
             try:
-                probabilities = None
                 prediction = model.predict([content])[0]
+
+                # Debug information: actual model output
+                print("RAW MODEL PREDICTION:", repr(prediction))
+                print("PREDICTION TYPE:", type(prediction).__name__)
+
+                probabilities = None
 
                 if hasattr(model, "predict_proba"):
                     probabilities = model.predict_proba([content])[0]
@@ -54,34 +60,46 @@ def fake_detector():
                         float(probabilities[predicted_index]) * 100, 2
                     )
 
-                if str(prediction).upper() == "FAKE":
+                # Handle string labels and numeric labels
+                label = str(prediction).strip().upper()
+
+                if label in ("FAKE", "0"):
                     result = "Potentially Fake Content"
-                elif str(prediction).upper() == "REAL":
+
+                elif label in ("REAL", "1"):
                     result = "Likely Genuine Content"
+
                 else:
                     result = "Unable to classify content"
+                    warning = (
+                        "The model returned an unrecognized label. "
+                        "Check the server logs and model training labels."
+                    )
 
-                # A low model score means the prediction needs extra caution.
                 if confidence is not None and confidence < 70:
                     warning = (
                         "The model is uncertain about this prediction. "
                         "Check reliable sources before deciding whether "
                         "the news is true or false."
                     )
-                else:
+                elif warning is None:
                     warning = (
-                        "This is only an ML model prediction, not verified "
+                        "This is an ML model prediction, not verified "
                         "fact-checking. Confirm the article using reliable "
-                        "official sources before sharing."
+                        "sources before sharing."
                     )
 
-                print("\n--- SMARTVERIFY RESULT ---")
-                print("Prediction:", prediction)
-                print("Confidence:", confidence)
+                print("DISPLAY RESULT:", result)
+                print("CONFIDENCE:", confidence)
 
             except Exception as error:
-                warning = "An error occurred while analyzing the article."
-                print("Prediction error:", error)
+                result = None
+                confidence = None
+                warning = (
+                    "An error occurred while analyzing the article. "
+                    "Check the server logs for details."
+                )
+                print("Prediction error:", repr(error))
 
     return render_template(
         "fake_detector.html",
