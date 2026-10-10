@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Fake Content Detector | SmartVerify</title>
 
     <style>
@@ -165,6 +164,12 @@
             color: #15803d;
         }
 
+        .result.uncertain {
+            background: #fffbeb;
+            border-color: #fcd34d;
+            color: #92400e;
+        }
+
         .confidence {
             margin-top: 22px;
             text-align: left;
@@ -200,6 +205,10 @@
 
         .result.genuine .progress-fill {
             background: #16a34a;
+        }
+
+        .result.uncertain .progress-fill {
+            background: #d97706;
         }
 
         .disclaimer {
@@ -242,10 +251,8 @@
 </head>
 
 <body>
-
 <nav>
     <div class="logo">SmartVerify</div>
-
     <div>
         <a href="/">Home</a>
         <a href="/fake-detector">Fake Detector</a>
@@ -254,7 +261,6 @@
 </nav>
 
 <main class="container">
-
     <div class="heading">
         <h1>Fake Content Detector</h1>
         <p>
@@ -264,9 +270,7 @@
     </div>
 
     <section class="card">
-
         <form method="POST" action="/fake-detector">
-
             <label for="content">Enter news article or content</label>
 
             <textarea
@@ -281,7 +285,6 @@
             </div>
 
             <button type="submit">Analyze Content</button>
-
         </form>
 
         {% if warning %}
@@ -291,73 +294,92 @@
         {% endif %}
 
         {% if result %}
+            {% set result_text = result|string|lower %}
 
-            {% if "Fake" in result %}
+            {% if 'uncertain' in result_text or 'verification' in result_text %}
 
-                <div class="result fake">
-
+                <div class="result uncertain">
                     <h2>⚠️ {{ result }}</h2>
-
                     <p>
-                        The model classified this content as potentially fake.
-                        Verify it with reliable sources before sharing.
+                        The model is not confident enough to classify this
+                        content reliably. Verify the claims using trusted,
+                        independent sources before sharing.
                     </p>
 
-                    {% if confidence is not none %}
+                    {% if confidence is defined and confidence is not none %}
                         <div class="confidence">
-
                             <div class="confidence-top">
                                 <span>Model confidence score</span>
                                 <span>{{ confidence }}%</span>
                             </div>
-
                             <div class="progress-track">
-                                <div
-                                    class="progress-fill"
-                                    data-confidence="{{ confidence }}"
-                                ></div>
+                                <div class="progress-fill"
+                                     data-confidence="{{ confidence }}"></div>
                             </div>
-
                         </div>
                     {% endif %}
+                </div>
 
+            {% elif 'fake' in result_text %}
+
+                <div class="result fake">
+                    <h2>⚠️ {{ result }}</h2>
+                    <p>
+                        The model has flagged this content as potentially
+                        fake. This is a prediction, not proof. Check the
+                        claims against reliable sources before sharing.
+                    </p>
+
+                    {% if confidence is defined and confidence is not none %}
+                        <div class="confidence">
+                            <div class="confidence-top">
+                                <span>Model confidence score</span>
+                                <span>{{ confidence }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill"
+                                     data-confidence="{{ confidence }}"></div>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+
+            {% elif 'genuine' in result_text or 'real' in result_text %}
+
+                <div class="result genuine">
+                    <h2>✓ {{ result }}</h2>
+                    <p>
+                        The model predicts that this content may be genuine.
+                        This does not confirm that the article is factually
+                        correct. Check trusted sources to verify its claims.
+                    </p>
+
+                    {% if confidence is defined and confidence is not none %}
+                        <div class="confidence">
+                            <div class="confidence-top">
+                                <span>Model confidence score</span>
+                                <span>{{ confidence }}%</span>
+                            </div>
+                            <div class="progress-track">
+                                <div class="progress-fill"
+                                     data-confidence="{{ confidence }}"></div>
+                            </div>
+                        </div>
+                    {% endif %}
                 </div>
 
             {% else %}
 
-                <div class="result genuine">
-
-                    <h2>✓ {{ result }}</h2>
-
+                <div class="result uncertain">
+                    <h2>{{ result }}</h2>
                     <p>
-                        The model classified this content as likely genuine.
-                        Check trusted sources to confirm its accuracy.
+                        No recognized classification is available.
+                        Please verify this content using trusted sources.
                     </p>
-
-                    {% if confidence is not none %}
-                        <div class="confidence">
-
-                            <div class="confidence-top">
-                                <span>Model confidence score</span>
-                                <span>{{ confidence }}%</span>
-                            </div>
-
-                            <div class="progress-track">
-                                <div
-                                    class="progress-fill"
-                                    data-confidence="{{ confidence }}"
-                                ></div>
-                            </div>
-
-                        </div>
-                    {% endif %}
-
                 </div>
 
             {% endif %}
-
         {% endif %}
-
     </section>
 
     <p class="disclaimer">
@@ -365,7 +387,6 @@
         an article is true or false. The confidence score is not a guarantee
         of factual accuracy. Always verify information using reliable sources.
     </p>
-
 </main>
 
 <footer>
@@ -382,6 +403,5 @@
         }
     });
 </script>
-
 </body>
 </html>

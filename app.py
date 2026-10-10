@@ -8,13 +8,16 @@ app = Flask(__name__)
 BASE_DIR = Path(__file__).resolve().parent
 MODEL_PATH = BASE_DIR / "fake_content_model.pkl"
 
+# Predictions below this confidence are shown as uncertain.
+CONFIDENCE_THRESHOLD = 60.0
+
 try:
     model = joblib.load(MODEL_PATH)
     print("Model loaded successfully.")
     print("Model classes:", getattr(model, "classes_", "Not available"))
 except Exception as error:
     model = None
-    print("Model loading error:", error)
+    print("Model loading error:", repr(error))
 
 
 @app.route("/")
@@ -37,56 +40,67 @@ def fake_detector():
             warning = "Please enter a news article."
 
         elif word_count < 20:
-            warning = "Please enter at least 20 words for analysis."
+            warning = (
+                f"Your text has only {word_count} words. "
+                "Please enter the full article with at least 20 words."
+            )
 
         elif model is None:
-            warning = "Model could not be loaded. Check fake_content_model.pkl."
+            warning = (
+                "The model could not be loaded. "
+                "Check that fake_content_model.pkl exists."
+            )
 
         else:
             try:
                 prediction = model.predict([content])[0]
+                label = str(prediction).strip().upper()
 
-                # Debug information: actual model output
                 print("RAW MODEL PREDICTION:", repr(prediction))
-                print("PREDICTION TYPE:", type(prediction).__name__)
 
+                classes = list(model.classes_)
                 probabilities = None
 
                 if hasattr(model, "predict_proba"):
                     probabilities = model.predict_proba([content])[0]
-                    classes = list(model.classes_)
                     predicted_index = classes.index(prediction)
                     confidence = round(
                         float(probabilities[predicted_index]) * 100, 2
                     )
 
-                # Handle string labels and numeric labels
-                label = str(prediction).strip().upper()
+                # Handle uncertain predictions before displaying a label.
+                if (
+                    confidence is not None
+                    and confidence < CONFIDENCE_THRESHOLD
+                ):
+                    result = "Uncertain - Needs Verification"
+                    warning = (
+                        f"The model confidence is {confidence:.2f}%, "
+                        "which is below the 60% display threshold. "
+                        "The article cannot be reliably classified by "
+                        "this model. Verify it using trusted sources."
+                    )
 
-                if label in ("FAKE", "0"):
+                elif label == "FAKE":
                     result = "Potentially Fake Content"
+                    warning = (
+                        "This is an ML model prediction, not verified "
+                        "fact-checking. Check reliable sources before "
+                        "deciding whether the article is false."
+                    )
 
-                elif label in ("REAL", "1"):
+                elif label == "REAL":
                     result = "Likely Genuine Content"
+                    warning = (
+                        "This prediction does not prove that the article "
+                        "is true. Verify it using reliable sources."
+                    )
 
                 else:
                     result = "Unable to classify content"
                     warning = (
                         "The model returned an unrecognized label. "
-                        "Check the server logs and model training labels."
-                    )
-
-                if confidence is not None and confidence < 70:
-                    warning = (
-                        "The model is uncertain about this prediction. "
-                        "Check reliable sources before deciding whether "
-                        "the news is true or false."
-                    )
-                elif warning is None:
-                    warning = (
-                        "This is an ML model prediction, not verified "
-                        "fact-checking. Confirm the article using reliable "
-                        "sources before sharing."
+                        "Check the model training labels."
                     )
 
                 print("DISPLAY RESULT:", result)
@@ -97,7 +111,7 @@ def fake_detector():
                 confidence = None
                 warning = (
                     "An error occurred while analyzing the article. "
-                    "Check the server logs for details."
+                    "Please try again and check the server logs."
                 )
                 print("Prediction error:", repr(error))
 
