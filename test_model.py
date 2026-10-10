@@ -17,10 +17,14 @@ def main():
         return
 
     samples = [
-        "The government announced a new public transport policy today.",
-        "BREAKING! Everyone will receive free money tomorrow. Share immediately!",
-        "The school announced its examination schedule for next month.",
-        "A miracle cure guarantees that every disease disappears overnight."
+    "The government announced a new public transport policy today.",
+    "BREAKING! Everyone will receive free money tomorrow. Share immediately!",
+    "The school announced its examination schedule for next month.",
+    "A miracle cure guarantees that every disease disappears overnight.",
+    "The government released its annual economic report today.",
+    "Scientists published a new study on climate change.",
+    "This secret trick guarantees instant wealth for everyone!",
+    "The health department issued new safety guidelines."
     ]
 
     print("\nSMARTVERIFY MODEL TEST")

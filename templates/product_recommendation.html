@@ -1,208 +1,330 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Product Recommendation - SmartVerify</title>
+    <title>Product Recommendations | SmartVerify</title>
 
     <style>
         * {
-            margin: 0;
-            padding: 0;
             box-sizing: border-box;
             font-family: Arial, sans-serif;
         }
 
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #0f172a;
+            --muted: #64748b;
+            --background: #f5f7fb;
+        }
+
         body {
-            background: #f5f7fb;
+            margin: 0;
+            background: var(--background);
             color: #1f2937;
         }
 
-       .navbar {
-    background: #111827;
-    padding: 18px 8%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 20px;
-    flex-wrap: wrap;
-}
+        /* NAVBAR */
 
-.logo {
-    color: white;
-    text-decoration: none;
-    font-size: 24px;
-    font-weight: bold;
-}
+        .navbar {
+            background: var(--dark);
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            box-shadow: 0 4px 18px #00000015;
+        }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-    flex-wrap: wrap;
-}
+        .logo {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 26px;
+            font-weight: 800;
+        }
 
-.nav-links a {
-    color: #e5e7eb;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-}
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
 
-.nav-links a:hover {
-    color: #60a5fa;
-}
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
 
-@media (max-width: 600px) {
-    .navbar {
-        padding: 18px 5%;
-        flex-direction: column;
-        align-items: flex-start;
-    }
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
 
-    .nav-links {
-        gap: 15px;
-    }
-}
+        /* MAIN LAYOUT */
+
         .container {
-            width: 100%;
-            max-width: 1000px;
-            margin: 50px auto;
+            max-width: 1150px;
+            margin: 42px auto;
             padding: 20px;
         }
 
-        .card {
-            background: white;
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        .page-heading {
+            margin-bottom: 28px;
         }
 
-        h1 {
+        .eyebrow {
+            display: inline-block;
+            background: #dbeafe;
+            color: #1d4ed8;
+            padding: 7px 13px;
+            border-radius: 25px;
+            font-size: 12px;
+            font-weight: bold;
             margin-bottom: 12px;
         }
 
+        h1 {
+            font-size: clamp(28px, 4vw, 38px);
+            margin: 0 0 12px;
+            color: var(--dark);
+        }
+
         .description {
-            color: #6b7280;
-            margin-bottom: 30px;
-            line-height: 1.5;
+            color: var(--muted);
+            line-height: 1.7;
+            margin: 0;
+        }
+
+        /* SEARCH PANEL */
+
+        .search-panel {
+            background: white;
+            padding: 28px;
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            box-shadow: 0 6px 25px #0f172a08;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
         }
 
         label {
             display: block;
-            margin-bottom: 8px;
+            font-size: 14px;
             font-weight: bold;
+            margin-bottom: 9px;
+            color: #334155;
         }
 
-        select {
+        select,
+        input {
             width: 100%;
-            padding: 13px;
-            border: 1px solid #d1d5db;
-            border-radius: 9px;
-            font-size: 16px;
-            margin-bottom: 20px;
+            min-height: 49px;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 15px;
             background: white;
+            color: #1f2937;
+            outline: none;
         }
 
-        button {
-            padding: 14px 25px;
-            background: #2563eb;
+        select:focus,
+        input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px #2563eb1c;
+        }
+
+        .search-button {
+            margin-top: 22px;
+            min-height: 48px;
+            padding: 13px 23px;
+            background: var(--primary);
             color: white;
             border: none;
-            border-radius: 9px;
-            font-size: 16px;
+            border-radius: 10px;
+            font-size: 15px;
             font-weight: bold;
             cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
         }
 
-        button:hover {
-            background: #1d4ed8;
+        .search-button:hover {
+            background: var(--primary-dark);
+            transform: translateY(-1px);
         }
 
-        .info {
-            margin-top: 40px;
+        /* RESULTS */
+
+        .results-section {
+            margin-top: 42px;
         }
 
-        .info h2 {
-            margin-bottom: 8px;
+        .results-heading {
+            margin-bottom: 22px;
         }
 
-        .info-description {
-            color: #6b7280;
-            margin-bottom: 25px;
+        .results-heading h2 {
+            margin: 0 0 8px;
+            font-size: 26px;
+            color: var(--dark);
+        }
+
+        .results-heading p {
+            margin: 0;
+            color: var(--muted);
+            line-height: 1.6;
         }
 
         .products {
             display: grid;
             grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 20px;
+            gap: 22px;
         }
 
         .product-card {
             background: white;
-            padding: 25px;
-            border-radius: 14px;
-            border: 1px solid #e5e7eb;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+            padding: 24px;
+            border: 1px solid #e2e8f0;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px #0f172a08;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 14px 30px #0f172a12;
         }
 
         .product-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 12px;
-            background: #eef2ff;
+            width: 66px;
+            height: 66px;
+            background: #eff6ff;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 30px;
+            font-size: 34px;
             margin-bottom: 18px;
         }
 
         .product-card h3 {
-            margin-bottom: 12px;
-            font-size: 20px;
+            font-size: 19px;
+            line-height: 1.4;
+            margin: 0 0 13px;
+            color: var(--dark);
         }
 
         .price {
-            font-size: 21px;
-            font-weight: bold;
-            color: #2563eb;
-            margin-bottom: 8px;
+            color: var(--primary);
+            font-size: 23px;
+            font-weight: 800;
+            margin: 0 0 10px;
         }
 
         .rating {
-            margin-bottom: 15px;
+            display: inline-block;
+            padding: 6px 10px;
+            background: #fffbeb;
+            color: #92400e;
+            border-radius: 7px;
+            font-size: 14px;
             font-weight: bold;
+            margin: 0 0 13px;
         }
 
         .product-description {
-            color: #6b7280;
-            line-height: 1.5;
+            color: var(--muted);
+            font-size: 14px;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        /* EMPTY STATE */
+
+        .empty-message {
+            padding: 28px;
+            background: white;
+            border: 1px dashed #cbd5e1;
+            border-radius: 14px;
+            color: var(--muted);
+            text-align: center;
+            line-height: 1.7;
+        }
+
+        .empty-icon {
+            font-size: 34px;
+            margin-bottom: 8px;
+        }
+
+        /* FOOTER */
+
+        footer {
+            margin-top: 65px;
+            padding: 25px 20px;
+            background: var(--dark);
+            color: #cbd5e1;
+            text-align: center;
             font-size: 14px;
         }
 
-        .empty-message {
-            color: #6b7280;
-            background: #f9fafb;
-            padding: 20px;
-            border-radius: 10px;
-            border: 1px solid #e5e7eb;
+        /* RESPONSIVE */
+
+        @media (max-width: 850px) {
+            .products {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .navbar {
+                padding: 18px 5%;
+            }
         }
 
-        @media (max-width: 750px) {
+        @media (max-width: 600px) {
+            .navbar {
+                justify-content: center;
+                text-align: center;
+            }
+
+            .nav-links {
+                justify-content: center;
+                gap: 14px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .container {
+                margin: 24px auto;
+                padding: 14px;
+            }
+
+            .search-panel {
+                padding: 21px;
+            }
+
+            .form-grid,
             .products {
                 grid-template-columns: 1fr;
             }
 
-            .container {
-                margin: 30px auto;
-                padding: 15px;
+            .search-button {
+                width: 100%;
             }
 
-            .card {
-                padding: 25px 20px;
+            .product-card {
+                padding: 22px;
             }
         }
     </style>
@@ -211,148 +333,163 @@
 <body>
 
     <nav class="navbar">
-    <a class="logo" href="/">SmartVerify</a>
+        <a class="logo" href="/">SmartVerify</a>
 
-    <div class="nav-links">
-        <a href="/">Home</a>
-        <a href="/fake-detector">Fake Detector</a>
-        <a href="/product-recommendation">Product Recommendation</a>
-    </div>
-</nav>
-    <div class="container">
-        <div class="card">
+        <div class="nav-links">
+            <a href="/">Home</a>
+            <a href="/fake-detector">Fake Detector</a>
+            <a href="/product-recommendation">Product Recommendation</a>
+        </div>
+    </nav>
 
-            <h1>Product Recommendation</h1>
+    <main class="container">
 
+        <header class="page-heading">
+            <span class="eyebrow">SMART PRODUCT DISCOVERY</span>
+            <h1>Product Recommendations</h1>
             <p class="description">
-                Select a product category and SmartVerify will recommend
-                suitable products based on your selection.
+                Choose a category and search for products that match your interests.
             </p>
+        </header>
 
+        <section class="search-panel">
             <form method="POST">
 
-                <label for="category">Select Category</label>
+                <div class="form-grid">
+                    <div>
+                        <label for="category">Select Category</label>
 
-                <select id="category" name="category" required>
+                        <select id="category" name="category" required>
+                            <option value="electronics"
+                                {% if selected_category == "electronics" %}selected{% endif %}>
+                                🎧 Electronics
+                            </option>
 
-                    <option value="electronics"
-                        {% if selected_category == "electronics" %}selected{% endif %}>
-                        📱 Electronics
-                    </option>
+                            <option value="fitness"
+                                {% if selected_category == "fitness" %}selected{% endif %}>
+                                💪 Fitness
+                            </option>
 
-                    <option value="fitness"
-                        {% if selected_category == "fitness" %}selected{% endif %}>
-                        🏋️ Fitness
-                    </option>
+                            <option value="books"
+                                {% if selected_category == "books" %}selected{% endif %}>
+                                📚 Books
+                            </option>
 
-                    <option value="books"
-                        {% if selected_category == "books" %}selected{% endif %}>
-                        📚 Books
-                    </option>
+                            <option value="fashion"
+                                {% if selected_category == "fashion" %}selected{% endif %}>
+                                👕 Fashion
+                            </option>
 
-                    <option value="fashion"
-                        {% if selected_category == "fashion" %}selected{% endif %}>
-                        👕 Fashion
-                    </option>
+                            <option value="home"
+                                {% if selected_category == "home" %}selected{% endif %}>
+                                🏠 Home &amp; Kitchen
+                            </option>
+                        </select>
+                    </div>
 
-                    <option value="home"
-                        {% if selected_category == "home" %}selected{% endif %}>
-                        🏠 Home & Kitchen
-                    </option>
+                    <div>
+                        <label for="search">Search Product</label>
 
-                </select>
+                        <input
+                            type="text"
+                            id="search"
+                            name="search"
+                            placeholder="e.g. Python, Dumbbells, Jeans"
+                            value="{{ search_query }}">
+                    </div>
+                </div>
 
-                <button type="submit">Get Recommendations</button>
+                <button type="submit" class="search-button">
+                    🔎 Get Recommendations
+                </button>
 
             </form>
+        </section>
 
-            <div class="info">
+        <section class="results-section">
 
+            <div class="results-heading">
                 <h2>Recommended Products</h2>
-
-                <p class="info-description">
-                    SmartVerify's recommendations for your selected category.
+                <p>
+                    {% if recommendations %}
+                        Showing {{ recommendations|length }} matching product(s).
+                    {% else %}
+                        Browse the available products for your selected category.
+                    {% endif %}
                 </p>
-
-                {% if recommendations %}
-
-                    <div class="products">
-
-                        {% for product in recommendations %}
-
-                            <div class="product-card">
-
-                                <div class="product-icon">
-
-                                    {% if product.name == "Wireless Earphones" %}
-                                        🎧
-                                    {% elif product.name == "Bluetooth Speaker" %}
-                                        🔊
-                                    {% elif product.name == "Smart Watch" %}
-                                        ⌚
-                                    {% elif product.name == "Yoga Mat" %}
-                                        🧘
-                                    {% elif product.name == "Resistance Bands" %}
-                                        💪
-                                    {% elif product.name == "Dumbbells" %}
-                                        🏋️
-                                    {% elif product.name == "Python Programming Book" %}
-                                        🐍
-                                    {% elif product.name == "AI & ML Book" %}
-                                        🤖
-                                    {% elif product.name == "Data Science Book" %}
-                                        📊
-                                    {% elif product.name == "T-Shirt" %}
-                                        👕
-                                    {% elif product.name == "Jeans" %}
-                                        👖
-                                    {% elif product.name == "Sneakers" %}
-                                        👟
-                                    {% elif product.name == "Mixer Grinder" %}
-                                        🍳
-                                    {% elif product.name == "Electric Kettle" %}
-                                        ☕
-                                    {% elif product.name == "Storage Organizer" %}
-                                        📦
-                                    {% else %}
-                                        🛍️
-                                    {% endif %}
-
-                                </div>
-
-                                <h3>{{ product.name }}</h3>
-
-                                <p class="price">{{ product.price }}</p>
-
-                                <p class="rating">
-                                    ⭐ {{ product.rating }} / 5
-                                </p>
-
-                                <p class="product-description">
-                                    Recommended product based on your
-                                    selected category.
-                                </p>
-
-                            </div>
-
-                        {% endfor %}
-
-                    </div>
-
-                {% else %}
-
-                    <div class="empty-message">
-                        Select a category and click
-                        <strong>Get Recommendations</strong>
-                        to see recommended products.
-                    </div>
-
-                {% endif %}
-
             </div>
 
-        </div>
-    </div>
+            {% if recommendations %}
+
+                <div class="products">
+
+                    {% for product in recommendations %}
+
+                        <article class="product-card">
+
+                            <div class="product-icon">
+                                {% if product.name == "Wireless Earphones" %}🎧
+                                {% elif product.name == "Bluetooth Speaker" %}🔊
+                                {% elif product.name == "Smart Watch" %}⌚
+                                {% elif product.name == "Yoga Mat" %}🧘
+                                {% elif product.name == "Resistance Bands" %}💪
+                                {% elif product.name == "Dumbbells" %}🏋️
+                                {% elif product.name == "Python Programming Book" %}🐍
+                                {% elif product.name == "AI & ML Book" %}🤖
+                                {% elif product.name == "Data Science Book" %}📊
+                                {% elif product.name == "T-Shirt" %}👕
+                                {% elif product.name == "Jeans" %}👖
+                                {% elif product.name == "Sneakers" %}👟
+                                {% elif product.name == "Mixer Grinder" %}🍳
+                                {% elif product.name == "Electric Kettle" %}☕
+                                {% elif product.name == "Storage Organizer" %}📦
+                                {% else %}🛍️
+                                {% endif %}
+                            </div>
+
+                            <h3>{{ product.name }}</h3>
+
+                            <p class="price">{{ product.price }}</p>
+
+                            <p class="rating">
+                                ⭐ {{ product.rating }} / 5
+                            </p>
+
+                            <p class="product-description">
+                                Recommended for your selected category.
+                            </p>
+
+                        </article>
+
+                    {% endfor %}
+
+                </div>
+
+            {% elif selected_category %}
+
+                <div class="empty-message">
+                    <div class="empty-icon">🔎</div>
+                    <strong>No matching products found.</strong>
+                    <p>Try another product name or choose a different category.</p>
+                </div>
+
+            {% else %}
+
+                <div class="empty-message">
+                    <div class="empty-icon">🛍️</div>
+                    <strong>Ready to explore?</strong>
+                    <p>Select a category and click Get Recommendations.</p>
+                </div>
+
+            {% endif %}
+
+        </section>
+
+    </main>
+
+    <footer>
+        © 2026 SmartVerify | Product Recommendation System
+    </footer>
 
 </body>
 </html>

@@ -1,16 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
     <meta charset="UTF-8">
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SmartVerify | Intelligent Web Platform</title>
 
-    <title>SmartVerify</title>
-<!-- TEST NEW VERSION -->
     <style>
-
         * {
             margin: 0;
             padding: 0;
@@ -18,596 +14,540 @@
             font-family: Arial, sans-serif;
         }
 
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --dark: #0f172a;
+            --text: #1f2937;
+            --muted: #64748b;
+            --light: #f5f7fb;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            background: #f5f7fb;
-            color: #1f2937;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
         }
 
         /* NAVBAR */
 
-nav {
-    background: #0f172a;
-    padding: 18px 7%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 24px;
-    flex-wrap: wrap;
-    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
-}
+        nav {
+            background: var(--dark);
+            padding: 18px 7%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
+        }
 
-nav h2 {
-    color: #60a5fa;
-    font-size: 26px;
-    font-weight: bold;
-    white-space: nowrap;
-}
+        .brand {
+            color: #60a5fa;
+            font-size: 27px;
+            font-weight: 800;
+            text-decoration: none;
+        }
 
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 28px;
-    flex-wrap: wrap;
-}
+        .nav-links {
+            display: flex;
+            gap: 25px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
 
-.nav-links a {
-    color: #e2e8f0;
-    text-decoration: none;
-    font-size: 15px;
-    font-weight: bold;
-    transition: color 0.2s ease;
-}
+        .nav-links a {
+            color: #e2e8f0;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
 
-.nav-links a:hover {
-    color: #60a5fa;
-}
+        .nav-links a:hover {
+            color: #60a5fa;
+        }
+
         /* HERO */
 
         .hero {
-            min-height: 75vh;
-
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
+            padding: 95px 20px 100px;
             text-align: center;
-
-            padding: 60px 20px;
+            background:
+                radial-gradient(circle at top right, #dbeafe 0, transparent 38%),
+                linear-gradient(135deg, #ffffff, #eff6ff);
         }
 
         .hero-content {
-            width: 100%;
-            max-width: 850px;
+            max-width: 950px;
             margin: auto;
         }
 
+        .eyebrow {
+            display: inline-block;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 24px;
+        }
+
         .hero h1 {
-            font-size: 56px;
-            margin-bottom: 15px;
+            font-size: clamp(42px, 7vw, 70px);
+            line-height: 1.1;
+            letter-spacing: -2px;
+            margin-bottom: 22px;
+            color: var(--dark);
+        }
+
+        .hero h1 span {
+            color: var(--primary);
         }
 
         .hero h2 {
-            font-size: 24px;
-            margin-bottom: 20px;
-            color: #2563eb;
+            max-width: 800px;
+            margin: 0 auto 20px;
+            font-size: clamp(20px, 3vw, 28px);
+            color: #334155;
         }
 
         .hero p {
-            font-size: 18px;
-            color: #6b7280;
-
-            line-height: 1.6;
-
-            margin-bottom: 35px;
+            max-width: 740px;
+            margin: 0 auto 32px;
+            color: var(--muted);
+            font-size: 17px;
         }
-
-
-        /* BUTTONS */
 
         .buttons {
             display: flex;
             justify-content: center;
-            align-items: center;
-
-            gap: 15px;
-
+            gap: 14px;
             flex-wrap: wrap;
         }
 
         .button {
             display: inline-block;
-
-            padding: 14px 24px;
-
+            padding: 14px 23px;
             border-radius: 10px;
-
-            text-decoration: none;
-
-            font-weight: bold;
-
+            background: var(--primary);
             color: white;
-
-            background: #2563eb;
-
-            transition: background 0.2s ease;
+            text-decoration: none;
+            font-weight: bold;
+            border: 2px solid var(--primary);
+            transition: 0.2s ease;
         }
 
         .button:hover {
-            background: #1d4ed8;
+            background: var(--primary-dark);
+            border-color: var(--primary-dark);
+            transform: translateY(-2px);
         }
 
-        .secondary {
-            background: #111827;
+        .button.secondary {
+            background: white;
+            color: var(--dark);
+            border-color: #cbd5e1;
         }
 
-        .secondary:hover {
-            background: #374151;
+        .button.secondary:hover {
+            background: #f1f5f9;
         }
 
+        /* SECTION COMMON */
+
+        .section {
+            padding: 75px 20px;
+        }
+
+        .section-heading {
+            text-align: center;
+            max-width: 720px;
+            margin: 0 auto 42px;
+        }
+
+        .section-heading h2 {
+            font-size: clamp(28px, 4vw, 36px);
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+        }
 
         /* ABOUT */
 
         .about {
-            width: 100%;
-
-            padding: 70px 20px;
-
-            background: #eef2ff;
-
-            text-align: center;
+            background: white;
         }
 
         .about-content {
-            width: 100%;
-            max-width: 800px;
-
-            margin: 0 auto;
+            max-width: 850px;
+            margin: auto;
+            text-align: center;
         }
 
-        .about h2 {
-            font-size: 32px;
-
-            margin-bottom: 20px;
-        }
-
-        .about p {
-            color: #6b7280;
-
+        .about-content p {
             font-size: 17px;
-
-            line-height: 1.7;
+            color: var(--muted);
         }
-
-
-        /* HOW IT WORKS */
-
-        .how-it-works {
-            width: 100%;
-
-            padding: 70px 20px;
-
-            background: #f5f7fb;
-
-            text-align: center;
-        }
-
-        .how-it-works h2 {
-            font-size: 32px;
-
-            margin-bottom: 40px;
-        }
-
-        .steps {
-            width: 100%;
-            max-width: 1000px;
-
-            margin: 0 auto;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 25px;
-        }
-
-        .step-card {
-            background: white;
-
-            padding: 30px 20px;
-
-            border-radius: 15px;
-
-            border: 1px solid #e5e7eb;
-
-            box-shadow:
-                0 4px 15px rgba(0, 0, 0, 0.06);
-
-            text-align: center;
-        }
-
-        .step-number {
-            width: 45px;
-            height: 45px;
-
-            margin: 0 auto 15px;
-
-            border-radius: 50%;
-
-            background: #2563eb;
-
-            color: white;
-
-            display: flex;
-
-            justify-content: center;
-            align-items: center;
-
-            font-size: 20px;
-
-            font-weight: bold;
-        }
-
-        .step-card h3 {
-            margin-bottom: 12px;
-        }
-
-        .step-card p {
-            color: #6b7280;
-
-            line-height: 1.5;
-        }
-
 
         /* FEATURES */
 
         .features {
-            width: 100%;
-
-            padding: 70px 20px;
-
-            background: white;
-
-            text-align: center;
-        }
-
-        .features h2 {
-            font-size: 32px;
-
-            margin-bottom: 40px;
+            background: var(--light);
         }
 
         .feature-container {
-            width: 100%;
-            max-width: 1000px;
-
-            margin: 0 auto;
-
+            max-width: 1100px;
+            margin: auto;
             display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 25px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
         }
 
         .feature-card {
-            padding: 30px 20px;
+            background: white;
+            padding: 30px 25px;
+            border-radius: 16px;
+            border: 1px solid #e2e8f0;
+            box-shadow: 0 5px 20px rgba(15, 23, 42, 0.04);
+            transition: transform 0.25s, box-shadow 0.25s;
+        }
 
-            background: #f5f7fb;
+        .feature-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 14px 30px rgba(15, 23, 42, 0.09);
+        }
 
-            border-radius: 15px;
-
-            border: 1px solid #e5e7eb;
-
-            text-align: center;
+        .feature-icon {
+            width: 54px;
+            height: 54px;
+            border-radius: 14px;
+            background: #dbeafe;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 27px;
+            margin-bottom: 20px;
         }
 
         .feature-card h3 {
-            margin-bottom: 12px;
-
             font-size: 20px;
+            margin-bottom: 12px;
+            color: var(--dark);
         }
 
         .feature-card p {
-            color: #6b7280;
-
-            line-height: 1.5;
+            color: var(--muted);
+            font-size: 15px;
         }
 
+        .card-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .card-link:hover {
+            text-decoration: underline;
+        }
+
+        /* HOW IT WORKS */
+
+        .how-it-works {
+            background: white;
+        }
+
+        .steps {
+            max-width: 1050px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .step-card {
+            padding: 28px 22px;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            text-align: center;
+            background: #fff;
+        }
+
+        .step-number {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 18px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .step-card h3 {
+            margin-bottom: 10px;
+        }
+
+        .step-card p {
+            color: var(--muted);
+            font-size: 15px;
+        }
+
+        /* NOTICE */
+
+        .notice {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 0 20px 65px;
+        }
+
+        .notice-box {
+            padding: 20px 24px;
+            border-left: 4px solid #f59e0b;
+            background: #fffbeb;
+            border-radius: 8px;
+            color: #92400e;
+            font-size: 14px;
+        }
 
         /* FOOTER */
 
         footer {
-            background: #111827;
-
-            color: white;
-
+            padding: 28px 20px;
             text-align: center;
-
-            padding: 25px;
+            background: var(--dark);
+            color: #e2e8f0;
         }
 
         footer p {
-            color: #d1d5db;
+            font-size: 14px;
         }
 
+        footer a {
+            color: #93c5fd;
+            text-decoration: none;
+        }
 
-        /* MOBILE */
+        /* RESPONSIVE */
 
         @media (max-width: 800px) {
-
             nav {
-                flex-direction: column;
-
+                justify-content: center;
                 text-align: center;
             }
 
             .nav-links {
-                flex-wrap: wrap;
-
                 justify-content: center;
+                gap: 16px;
+            }
 
-                gap: 15px;
+            .feature-container,
+            .steps {
+                grid-template-columns: 1fr;
+                max-width: 520px;
+            }
+
+            .hero {
+                padding: 70px 20px;
             }
 
             .hero h1 {
-                font-size: 40px;
+                letter-spacing: -1px;
             }
-
-            .hero h2 {
-                font-size: 20px;
-            }
-
-            .steps {
-                grid-template-columns: 1fr;
-            }
-
-            .feature-container {
-                grid-template-columns: 1fr;
-            }
-
         }
 
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 13px;
+            }
+
+            .button {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .section {
+                padding: 55px 18px;
+            }
+        }
     </style>
-
 </head>
-
 
 <body>
 
-
-    <!-- NAVBAR -->
-
     <nav>
-
-        <h2>
-            SmartVerify
-        </h2>
+        <a href="/" class="brand">SmartVerify</a>
 
         <div class="nav-links">
-
-            <a href="/">
-                Home
-            </a>
-
-            <a href="/fake-detector">
-                Fake Detector
-            </a>
-
-            <a href="/product-recommendation">
-                Product Recommendation
-            </a>
-
+            <a href="/">Home</a>
+            <a href="/fake-detector">Fake Detector</a>
+            <a href="/product-recommendation">Product Recommendation</a>
         </div>
-
     </nav>
 
-
-    <!-- HERO -->
-
     <section class="hero">
-
         <div class="hero-content">
 
-            <h1>
-                SmartVerify
-            </h1>
+            <span class="eyebrow">SMART ANALYSIS · USEFUL RECOMMENDATIONS</span>
 
-            <h2>
-                Fake Content Detection & Product Recommendation System
-            </h2>
+            <h1>Welcome to <span>SmartVerify</span></h1>
+
+            <h2>Fake Content Detection &amp; Product Recommendation System</h2>
 
             <p>
-                An intelligent system designed to analyze online content
-                and help users identify potentially fake information,
-                while also providing useful product recommendations.
+                Explore a machine-learning-based tool that analyzes submitted
+                text and a product recommendation page that helps you discover
+                items by category and search.
             </p>
 
             <div class="buttons">
-
-                <a
-                    href="/fake-detector"
-                    class="button">
-
-                    Fake Content Detector
-
+                <a href="/fake-detector" class="button">
+                    🔍 Try Fake Detector
                 </a>
 
-                <a
-                    href="/product-recommendation"
-                    class="button secondary">
-
-                    Product Recommendation
-
+                <a href="/product-recommendation" class="button secondary">
+                    🛍️ Explore Products
                 </a>
-
             </div>
 
         </div>
-
     </section>
 
-
-    <!-- ABOUT -->
-
-    <section class="about">
-
+    <section class="section about">
         <div class="about-content">
-
-            <h2>
-                About SmartVerify
-            </h2>
+            <div class="section-heading">
+                <h2>About SmartVerify</h2>
+                <p>
+                    Two useful tools in one simple web application.
+                </p>
+            </div>
 
             <p>
-                SmartVerify is an intelligent web-based system that
-                combines machine learning and recommendation technology
-                to provide useful and smart solutions for users.
+                SmartVerify combines a machine learning text classifier with
+                a category-based product recommendation feature. It is
+                designed to make content analysis and product discovery
+                straightforward and accessible.
             </p>
-
         </div>
-
     </section>
 
-
-    <!-- HOW IT WORKS -->
-
-    <section class="how-it-works">
-
-        <h2>
-            How It Works
-        </h2>
-
-        <div class="steps">
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    1
-                </div>
-
-                <h3>
-                    Enter Information
-                </h3>
-
-                <p>
-                    Enter news, article or select a product category.
-                </p>
-
-            </div>
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    2
-                </div>
-
-                <h3>
-                    Smart Analysis
-                </h3>
-
-                <p>
-                    SmartVerify processes the information using
-                    its machine learning model.
-                </p>
-
-            </div>
-
-
-            <div class="step-card">
-
-                <div class="step-number">
-                    3
-                </div>
-
-                <h3>
-                    Get Result
-                </h3>
-
-                <p>
-                    View the analysis result or recommended products.
-                </p>
-
-            </div>
-
-
+    <section class="section features">
+        <div class="section-heading">
+            <h2>Explore Our Features</h2>
+            <p>Choose a tool and get started.</p>
         </div>
-
-    </section>
-
-
-    <!-- FEATURES -->
-
-    <section class="features">
-
-        <h2>
-            SmartVerify Features
-        </h2>
 
         <div class="feature-container">
 
-
             <div class="feature-card">
-
-                <h3>
-                    🔍 Fake Content Detection
-                </h3>
-
+                <div class="feature-icon">🔍</div>
+                <h3>Fake Content Detection</h3>
                 <p>
-                    Analyze text using a machine learning model
-                    and identify potentially fake content.
+                    Submit an article or text and view the machine learning
+                    model's prediction and confidence score.
                 </p>
-
+                <a href="/fake-detector" class="card-link">
+                    Analyze content →
+                </a>
             </div>
 
-
             <div class="feature-card">
-
-                <h3>
-                    🛍️ Product Recommendation
-                </h3>
-
+                <div class="feature-icon">🛍️</div>
+                <h3>Product Recommendations</h3>
                 <p>
-                    Select a category and get suitable product
-                    recommendations with price and rating.
+                    Browse product categories, search for items, and view
+                    sample prices and ratings.
                 </p>
-
+                <a href="/product-recommendation" class="card-link">
+                    Explore products →
+                </a>
             </div>
 
-
             <div class="feature-card">
-
-                <h3>
-                    🤖 Machine Learning
-                </h3>
-
+                <div class="feature-icon">🤖</div>
+                <h3>Machine Learning</h3>
                 <p>
-                    SmartVerify uses machine learning technology
-                    to analyze user-provided content.
+                    Experience a web interface connected to a trained
+                    classification model.
                 </p>
-
+                <a href="/fake-detector" class="card-link">
+                    Try the model →
+                </a>
             </div>
-
 
         </div>
-
     </section>
 
+    <section class="section how-it-works">
+        <div class="section-heading">
+            <h2>How It Works</h2>
+            <p>Three simple steps to use SmartVerify.</p>
+        </div>
 
-    <!-- FOOTER -->
+        <div class="steps">
+
+            <div class="step-card">
+                <div class="step-number">1</div>
+                <h3>Enter or Select</h3>
+                <p>
+                    Paste an article into the detector or choose a product
+                    category to browse.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">2</div>
+                <h3>Process</h3>
+                <p>
+                    The text classifier generates a prediction, or the
+                    recommendation page filters products.
+                </p>
+            </div>
+
+            <div class="step-card">
+                <div class="step-number">3</div>
+                <h3>View Results</h3>
+                <p>
+                    Review the model output or browse the matching
+                    product suggestions.
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <div class="notice">
+        <div class="notice-box">
+            <strong>Important:</strong> A machine learning prediction does
+            not establish whether a news article is factually true or false.
+            Verify important claims with reliable sources. Product prices
+            and ratings shown in this project may be sample data.
+        </div>
+    </div>
 
     <footer>
-
         <p>
             © 2026 SmartVerify |
-            Fake Content Detection & Product Recommendation System
+            Fake Content Detection &amp; Product Recommendation System
         </p>
-
     </footer>
 
-
 </body>
-
 </html>

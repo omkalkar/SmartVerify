@@ -1,108 +1,124 @@
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Fake Content Detector - SmartVerify</title>
+    <title>Fake Content Detector | SmartVerify</title>
 
     <style>
-
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
         }
 
         body {
-            background: #f5f7fb;
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
             color: #1f2937;
+            min-height: 100vh;
         }
-
-        /* NAVBAR */
 
         nav {
             background: #111827;
-            padding: 18px 8%;
+            color: white;
+            padding: 18px 7%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #60a5fa;
         }
 
         nav a {
             color: white;
             text-decoration: none;
-            font-size: 20px;
-            font-weight: bold;
+            margin-left: 16px;
+            font-size: 14px;
         }
 
-        /* CONTAINER */
+        nav a:hover {
+            color: #60a5fa;
+        }
 
         .container {
-            width: 100%;
+            width: 90%;
             max-width: 850px;
-            margin: 60px auto;
-            padding: 20px;
+            margin: 45px auto;
         }
 
-        /* CARD */
+        .heading {
+            text-align: center;
+            margin-bottom: 28px;
+        }
+
+        .heading h1 {
+            font-size: 34px;
+            margin-bottom: 12px;
+            color: #111827;
+        }
+
+        .heading p {
+            color: #6b7280;
+            line-height: 1.6;
+        }
 
         .card {
             background: white;
-            padding: 35px;
-            border-radius: 15px;
-
-            box-shadow:
-                0 5px 25px rgba(0, 0, 0, 0.08);
+            padding: 30px;
+            border-radius: 18px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.07);
         }
 
-        h1 {
+        label {
+            display: block;
+            font-weight: bold;
             margin-bottom: 12px;
         }
 
-        .description {
-            color: #6b7280;
-            margin-bottom: 25px;
-            line-height: 1.5;
-        }
-
-        /* TEXTAREA */
-
         textarea {
             width: 100%;
-            min-height: 250px;
-
-            padding: 15px;
-
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-
+            min-height: 230px;
             resize: vertical;
-
-            font-size: 16px;
-
+            padding: 16px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 15px;
+            line-height: 1.7;
+            font-family: Arial, sans-serif;
             outline: none;
         }
 
         textarea:focus {
             border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
-        /* BUTTON */
+        .word-count {
+            color: #6b7280;
+            font-size: 13px;
+            text-align: right;
+            margin-top: 8px;
+        }
 
         button {
+            width: 100%;
             margin-top: 20px;
-
-            padding: 14px 25px;
-
+            padding: 15px;
             background: #2563eb;
             color: white;
-
             border: none;
-            border-radius: 9px;
-
+            border-radius: 10px;
             font-size: 16px;
             font-weight: bold;
-
             cursor: pointer;
         }
 
@@ -110,163 +126,262 @@
             background: #1d4ed8;
         }
 
-        /* RESULT */
-
-        .result {
-            margin-top: 30px;
-
-            padding: 25px;
-
-            border-radius: 12px;
-
-            background: #f3f4f6;
-
-            border-left: 5px solid #2563eb;
-        }
-
-        .result h2 {
-            margin-bottom: 12px;
-        }
-
-        .result p {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        /* CONFIDENCE */
-
-        .confidence {
-            margin-top: 15px;
-
-            font-size: 17px !important;
-
-            color: #2563eb;
-
-            font-weight: bold !important;
-        }
-
-        .result-note {
-            margin-top: 10px;
-
-            font-size: 14px !important;
-
-            font-weight: normal !important;
-
-            color: #6b7280;
-
+        .warning {
+            margin-top: 22px;
+            padding: 15px;
+            border-radius: 10px;
+            background: #fff7ed;
+            border: 1px solid #fdba74;
+            color: #9a3412;
             line-height: 1.5;
         }
 
-        /* MOBILE */
+        .result {
+            margin-top: 25px;
+            padding: 24px;
+            border-radius: 14px;
+            text-align: center;
+            border: 1px solid;
+        }
+
+        .result h2 {
+            font-size: 23px;
+            margin-bottom: 10px;
+        }
+
+        .result p {
+            line-height: 1.6;
+        }
+
+        .result.fake {
+            background: #fef2f2;
+            border-color: #fecaca;
+            color: #b91c1c;
+        }
+
+        .result.genuine {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+            color: #15803d;
+        }
+
+        .confidence {
+            margin-top: 22px;
+            text-align: left;
+        }
+
+        .confidence-top {
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .progress-track {
+            width: 100%;
+            height: 12px;
+            background: #e5e7eb;
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            width: 0;
+            height: 100%;
+            border-radius: 20px;
+            transition: width 0.4s ease;
+        }
+
+        .result.fake .progress-fill {
+            background: #dc2626;
+        }
+
+        .result.genuine .progress-fill {
+            background: #16a34a;
+        }
+
+        .disclaimer {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #6b7280;
+            line-height: 1.6;
+            text-align: center;
+        }
+
+        footer {
+            text-align: center;
+            color: #6b7280;
+            font-size: 13px;
+            padding: 25px 15px;
+        }
 
         @media (max-width: 600px) {
+            nav {
+                justify-content: center;
+            }
+
+            nav a {
+                margin: 0 6px;
+            }
 
             .container {
                 margin: 30px auto;
-                padding: 15px;
             }
 
             .card {
-                padding: 25px 20px;
+                padding: 20px;
             }
 
-            h1 {
+            .heading h1 {
                 font-size: 28px;
             }
-
         }
-
     </style>
-
 </head>
 
 <body>
 
-    <!-- NAVBAR -->
+<nav>
+    <div class="logo">SmartVerify</div>
 
-    <nav>
+    <div>
+        <a href="/">Home</a>
+        <a href="/fake-detector">Fake Detector</a>
+        <a href="/product-recommendation">Recommendations</a>
+    </div>
+</nav>
 
-        <a href="/">
-            SmartVerify
-        </a>
+<main class="container">
 
-    </nav>
+    <div class="heading">
+        <h1>Fake Content Detector</h1>
+        <p>
+            Analyze an article using our machine-learning model
+            and review its predicted classification.
+        </p>
+    </div>
 
+    <section class="card">
 
-    <!-- MAIN -->
+        <form method="POST" action="/fake-detector">
 
-    <div class="container">
+            <label for="content">Enter news article or content</label>
 
-        <div class="card">
+            <textarea
+                id="content"
+                name="content"
+                placeholder="Paste your article here (at least 20 words)..."
+                required
+            >{{ request.form.get('content', '') }}</textarea>
 
-            <h1>
-                Fake Content Detector
-            </h1>
-
-            <p class="description">
-                Paste a news article or any text below and analyze it
-                using our machine learning model.
-            </p>
-
-
-            <!-- FORM -->
-
-            <form method="POST">
-
-                <textarea
-                    name="content"
-                    placeholder="Paste your news or article here..."
-                    required></textarea>
-
-                <br>
-
-                <button type="submit">
-                    Analyze Content
-                </button>
-
-            </form>
-
-
-            <!-- RESULT -->
-
-            {% if result %}
-
-            <div class="result">
-
-                <h2>
-                    🔍 Analysis Result
-                </h2>
-
-                <p>
-                    {{ result }}
-                </p>
-
-
-                {% if confidence %}
-
-                <p class="confidence">
-                    Model Confidence: {{ confidence }}%
-                </p>
-
-                {% endif %}
-
-
-                <p class="result-note">
-                    This result is generated by the machine learning model.
-                    The confidence score represents the model's prediction
-                    confidence and does not guarantee that the content is
-                    actually true or false. Always verify important
-                    information using reliable sources.
-                </p>
-
+            <div class="word-count">
+                Minimum recommended length: 20 words
             </div>
+
+            <button type="submit">Analyze Content</button>
+
+        </form>
+
+        {% if warning %}
+            <div class="warning">
+                <strong>Notice:</strong> {{ warning }}
+            </div>
+        {% endif %}
+
+        {% if result %}
+
+            {% if "Fake" in result %}
+
+                <div class="result fake">
+
+                    <h2>⚠️ {{ result }}</h2>
+
+                    <p>
+                        The model classified this content as potentially fake.
+                        Verify it with reliable sources before sharing.
+                    </p>
+
+                    {% if confidence is not none %}
+                        <div class="confidence">
+
+                            <div class="confidence-top">
+                                <span>Model confidence score</span>
+                                <span>{{ confidence }}%</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div
+                                    class="progress-fill"
+                                    data-confidence="{{ confidence }}"
+                                ></div>
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                </div>
+
+            {% else %}
+
+                <div class="result genuine">
+
+                    <h2>✓ {{ result }}</h2>
+
+                    <p>
+                        The model classified this content as likely genuine.
+                        Check trusted sources to confirm its accuracy.
+                    </p>
+
+                    {% if confidence is not none %}
+                        <div class="confidence">
+
+                            <div class="confidence-top">
+                                <span>Model confidence score</span>
+                                <span>{{ confidence }}%</span>
+                            </div>
+
+                            <div class="progress-track">
+                                <div
+                                    class="progress-fill"
+                                    data-confidence="{{ confidence }}"
+                                ></div>
+                            </div>
+
+                        </div>
+                    {% endif %}
+
+                </div>
 
             {% endif %}
 
-        </div>
+        {% endif %}
 
-    </div>
+    </section>
+
+    <p class="disclaimer">
+        Disclaimer: This is a machine-learning prediction, not proof that
+        an article is true or false. The confidence score is not a guarantee
+        of factual accuracy. Always verify information using reliable sources.
+    </p>
+
+</main>
+
+<footer>
+    © 2026 SmartVerify | Fake Content Detection & Product Recommendation
+</footer>
+
+<script>
+    document.querySelectorAll(".progress-fill").forEach(function (bar) {
+        const value = Number(bar.dataset.confidence);
+
+        if (Number.isFinite(value)) {
+            const safeValue = Math.min(100, Math.max(0, value));
+            bar.style.width = safeValue + "%";
+        }
+    });
+</script>
 
 </body>
-
 </html>
